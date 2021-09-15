@@ -23,7 +23,7 @@ public class TransacaoController {
     @GetMapping
     public List<TransacaoDto> listar() {
 
-        List<TransacaoDto> transacoesDto = new ArrayList<>();
+        //List<TransacaoDto> transacoesDto = new ArrayList<>();
 
 //        for (Transacao transacao: transacoes
 //             ) { TransacaoDto dto = new TransacaoDto();
@@ -53,8 +53,6 @@ public class TransacaoController {
 
 
         Transacao transacao = modelMapper.map(dto, Transacao.class);
-
-
 
 
         transacoes.add(transacao);
