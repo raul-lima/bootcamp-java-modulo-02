@@ -6,6 +6,7 @@ import br.com.alura.carteira.modelo.Transacao;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,10 +49,12 @@ public class TransacaoController {
     }
 
     @PostMapping
-    public void cadastrar(@RequestBody TransacaoFormDto dto) {
+    public void cadastrar(@RequestBody @Valid TransacaoFormDto dto) {
 
 
         Transacao transacao = modelMapper.map(dto, Transacao.class);
+
+
 
 
         transacoes.add(transacao);
