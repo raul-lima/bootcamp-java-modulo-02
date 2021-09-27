@@ -6,25 +6,28 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter @Setter @ToString @AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "transacoes")
 public class Transacao {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-	private String ticker;
-	private LocalDate data;
-	private BigDecimal preco;
-	private Integer quantidade;
+    private String ticker;
+    private LocalDate data;
+    private BigDecimal preco;
+    private Integer quantidade;
 
-	@Enumerated(EnumType.STRING)
-	private TipoTransacao tipo;
+    @Enumerated(EnumType.STRING)
+    private TipoTransacao tipo;
 
-	@ManyToOne
-	private Usuario usuario;
+    @ManyToOne
+    private Usuario usuario;
 
 }

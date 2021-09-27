@@ -1,7 +1,7 @@
 package br.com.alura.carteira.controller;
 
-import br.com.alura.carteira.dao.UsuarioDto;
-import br.com.alura.carteira.dao.UsuarioFormDto;
+import br.com.alura.carteira.dto.UsuarioDto;
+import br.com.alura.carteira.dto.UsuarioFormDto;
 import br.com.alura.carteira.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

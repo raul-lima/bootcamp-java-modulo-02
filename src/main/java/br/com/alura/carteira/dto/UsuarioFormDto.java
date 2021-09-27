@@ -1,11 +1,12 @@
-package br.com.alura.carteira.dao;
+package br.com.alura.carteira.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
-@Getter @Setter
+@Getter
+@Setter
 public class UsuarioFormDto {
 
     @NotBlank
