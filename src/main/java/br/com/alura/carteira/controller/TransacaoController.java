@@ -4,6 +4,8 @@ import br.com.alura.carteira.dto.TransacaoDto;
 import br.com.alura.carteira.dto.TransacaoFormDto;
 import br.com.alura.carteira.service.TransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,9 +19,9 @@ public class TransacaoController {
     private TransacaoService service;
 
     @GetMapping
-    public List<TransacaoDto> listar() {
+    public Page<TransacaoDto> listar(Pageable paginacao) {
 
-        return service.listar();
+        return service.listar(paginacao);
 
     }
 

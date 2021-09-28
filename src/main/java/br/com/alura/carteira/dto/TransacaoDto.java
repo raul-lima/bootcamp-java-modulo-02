@@ -1,6 +1,7 @@
 package br.com.alura.carteira.dto;
 
 import br.com.alura.carteira.modelo.TipoTransacao;
+import br.com.alura.carteira.modelo.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,5 +15,6 @@ public class TransacaoDto {
     private BigDecimal preco;
     private int quantidade;
     private TipoTransacao tipo;
+    private Usuario usuario;
 
 }
