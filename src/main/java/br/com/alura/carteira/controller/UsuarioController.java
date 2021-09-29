@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -30,9 +32,15 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public void cadastrar(@RequestBody @Valid UsuarioFormDto dto) {
+    public ResponseEntity<UsuarioDto> cadastrar(@RequestBody @Valid UsuarioFormDto dto, UriComponentsBuilder uriBuilder) {
 
-        service.cadastrar(dto);
+         UsuarioDto usuarioDto = service.cadastrar(dto);
+
+        URI uri= uriBuilder
+                .path("/usuarios/{id}")
+                .buildAndExpand(usuarioDto.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(usuarioDto);
 
     }
 

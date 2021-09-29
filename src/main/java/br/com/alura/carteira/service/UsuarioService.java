@@ -10,9 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.transaction.Transactional;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -31,7 +30,8 @@ public class UsuarioService {
     }
 
 
-    public void cadastrar(UsuarioFormDto dto) {
+    @Transactional
+    public UsuarioDto cadastrar(UsuarioFormDto dto) {
         Usuario usuario = modelMapper.map(dto, Usuario.class);
 
         String senha = new Random().nextInt(999999) + "";
@@ -41,5 +41,7 @@ public class UsuarioService {
         System.out.println(usuario.getSenha());
 
         usuarioRepository.save(usuario);
+
+        return modelMapper.map(usuario, UsuarioDto.class);
     }
 }
