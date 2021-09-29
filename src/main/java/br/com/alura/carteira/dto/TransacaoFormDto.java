@@ -20,11 +20,15 @@ public class TransacaoFormDto {
     @NotEmpty
     @Size(min = 5, max = 6)
     private String ticker;
+    @NotNull
     private BigDecimal preco;
 
     @PastOrPresent
+    @NotNull
     private LocalDate data;
+    @NotNull
     private int quantidade;
+    @NotNull
     private TipoTransacao tipo;
 
     @JsonAlias("usuario_id")
