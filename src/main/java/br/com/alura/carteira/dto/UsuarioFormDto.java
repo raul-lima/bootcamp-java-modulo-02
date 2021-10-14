@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class UsuarioFormDto {
 
-    @NotBlank
+    @NotBlank(message = "Nome do usuário deve ser informado!")
     private String nome;
     @NotBlank
     private String login;
