@@ -3,19 +3,18 @@ package br.com.alura.carteira.service;
 import br.com.alura.carteira.dto.TransacaoDto;
 import br.com.alura.carteira.dto.TransacaoFormDto;
 import br.com.alura.carteira.modelo.Transacao;
+import br.com.alura.carteira.modelo.Usuario;
 import br.com.alura.carteira.repository.TransacaoRepository;
+import br.com.alura.carteira.repository.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TransacaoService {
@@ -23,12 +22,15 @@ public class TransacaoService {
     @Autowired
     private TransacaoRepository transacaoRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     private ModelMapper modelMapper = new ModelMapper();
 
 
     public Page<TransacaoDto> listar(@PageableDefault(size = 10) Pageable paginacao) {
 
-        Page<Transacao> transacoes = transacaoRepository.findAll( paginacao);
+        Page<Transacao> transacoes = transacaoRepository.findAll(paginacao);
 
         return transacoes
                 .map(t -> modelMapper
@@ -41,14 +43,22 @@ public class TransacaoService {
     public TransacaoDto cadastrar(TransacaoFormDto dto) {
 
 
+        Long idUsuario = dto.getUsuarioId();
 
-        Transacao transacao = modelMapper.map(dto, Transacao.class);
+        try {
+            Usuario usuario = usuarioRepository.getById(idUsuario);
+            Transacao transacao = modelMapper.map(dto, Transacao.class);
 
-        transacao.setId(null);
+            transacao.setId(null);
+            transacao.setUsuario(usuario);
 
-        transacaoRepository.save(transacao);
+            transacaoRepository.save(transacao);
 
-        return modelMapper.map(transacao, TransacaoDto.class);
+            return modelMapper.map(transacao, TransacaoDto.class);
+        } catch (EntityNotFoundException e) {
+            throw new IllegalArgumentException("Usuário inexistente!");
+
+        }
 
     }
 }
