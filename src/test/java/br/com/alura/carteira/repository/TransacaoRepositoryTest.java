@@ -5,6 +5,7 @@ import br.com.alura.carteira.modelo.TipoTransacao;
 import br.com.alura.carteira.modelo.Transacao;
 import br.com.alura.carteira.modelo.Usuario;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,27 +47,38 @@ class TransacaoRepositoryTest {
         em.persist(t1);
 
 
-        Transacao t2 = new Transacao("ITSA5", LocalDate.now(), new BigDecimal("15.00"),
-                60, TipoTransacao.COMPRA, usuario);
+        Transacao t2 = new Transacao("BBSE3", LocalDate.now(), new BigDecimal("22.80"),
+                80, TipoTransacao.COMPRA, usuario);
 
         em.persist(t2);
 
-        Transacao t3 = new Transacao("ITSA6", LocalDate.now(), new BigDecimal("10.00"),
-                90, TipoTransacao.COMPRA, usuario);
+        Transacao t3 = new Transacao("EGIE3", LocalDate.now(), new BigDecimal("40.00"),
+                25, TipoTransacao.COMPRA, usuario);
 
         em.persist(t3);
 
-        Transacao t4 = new Transacao("ITSA7", LocalDate.now(), new BigDecimal("10.00"),
-                80, TipoTransacao.COMPRA, usuario);
+        Transacao t4 = new Transacao("ITSA4", LocalDate.now(), new BigDecimal("11.20"),
+                40, TipoTransacao.VENDA, usuario);
 
         em.persist(t4);
 
 
+        Transacao t5 = new Transacao("SAPR4", LocalDate.now(), new BigDecimal("04.02"),
+                120, TipoTransacao.COMPRA, usuario);
+
+        em.persist(t5);
 
         List<ItemCarteiraDto> relatorio = repository.relatorioCarteiraDeInvestimentos();
         Assertions
                 .assertThat(relatorio)
-                .hasSize(4);
+                .hasSize(4)
+                .extracting(ItemCarteiraDto::getTicker, ItemCarteiraDto::getQuantidade, ItemCarteiraDto::getPercentual)
+                .containsExactlyInAnyOrder(
+                        Assertions.tuple("ITSA4", 10l, new BigDecimal("4.26")),
+                        Assertions.tuple("BBSE3", 80l, new BigDecimal("34.04")),
+                        Assertions.tuple("EGIE3", 25l, new BigDecimal("10.64")),
+                        Assertions.tuple("SAPR4", 120l, new BigDecimal("51.06"))
+                );
 
 
     }

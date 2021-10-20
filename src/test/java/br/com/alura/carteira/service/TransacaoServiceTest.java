@@ -36,15 +36,10 @@ class TransacaoServiceTest {
     void deveriaCadastrarUmaTransacao() {
 
 
-        TransacaoFormDto formDto = new TransacaoFormDto(
-                "ITSA94",
-                new BigDecimal("10.40"),
-                LocalDate.now(),
-                120,
-                TipoTransacao.COMPRA,
-                1l
-        );
+        TransacaoFormDto formDto = criarTransacaoFormDto();
         TransacaoDto dto = service.cadastrar(formDto);
+
+        Mockito.verify(transacaoRepository).save(Mockito.any());
 
         assertEquals(formDto.getTicker(), dto.getTicker());
         assertEquals(formDto.getPreco(), dto.getPreco());
@@ -52,18 +47,12 @@ class TransacaoServiceTest {
         assertEquals(formDto.getTipo(), dto.getTipo());
     }
 
+
     @Test
     void naoDeveriaCadastrarUmaTransacaoComUsuarioInexistente() {
 
 
-        TransacaoFormDto formDto = new TransacaoFormDto(
-                "ITSA94",
-                new BigDecimal("10.40"),
-                LocalDate.now(),
-                120,
-                TipoTransacao.COMPRA,
-                1l
-        );
+        TransacaoFormDto formDto = criarTransacaoFormDto();
 
         Mockito
                 .when(usuarioRepository.getById(formDto.getUsuarioId()))
@@ -71,6 +60,17 @@ class TransacaoServiceTest {
 
         assertThrows(IllegalArgumentException.class, () -> service.cadastrar(formDto));
 
+    }
+
+    private TransacaoFormDto criarTransacaoFormDto() {
+        return new TransacaoFormDto(
+                "ITSA94",
+                new BigDecimal("10.40"),
+                LocalDate.now(),
+                120,
+                TipoTransacao.COMPRA,
+                1l
+        );
     }
 
 }
