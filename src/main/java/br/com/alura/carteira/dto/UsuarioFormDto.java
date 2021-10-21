@@ -11,7 +11,7 @@ public class UsuarioFormDto {
 
     @NotBlank(message = "Nome do usuário deve ser informado!")
     private String nome;
-    @NotBlank
+    @NotBlank(message = "Login deve ser informado!")
     private String login;
 
 }
