@@ -17,6 +17,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class TransacaoFormDto {
 
+
+
     @NotBlank
     @Size(min = 5, max = 6)
     @Pattern(regexp = "[a-zA-Z]{4}[0-9][0-9]?", message = "{transacao.ticker.invalido}")
