@@ -10,4 +10,5 @@ public class UsuarioDto {
     private Long id;
     private String nome;
     private String login;
+
 }
