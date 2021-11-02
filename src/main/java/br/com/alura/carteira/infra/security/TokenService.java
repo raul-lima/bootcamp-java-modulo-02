@@ -1,6 +1,7 @@
 package br.com.alura.carteira.infra.security;
 
 import br.com.alura.carteira.modelo.Usuario;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,8 +20,32 @@ public class TokenService {
 
         return Jwts
                 .builder()
-                .setId(logado.getId().toString())
+                .setSubject(logado.getId().toString())
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
+    }
+
+    public boolean isValido(String token) {
+        try {
+            Jwts.parser().setSigningKey(secret)
+                    // Aqui se não validar devolve uma exception
+                    .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public Long extrairIdUsuario(String token) {
+
+            Claims claims = Jwts
+                    .parser()
+                    .setSigningKey(secret)
+                    // Aqui se não validar devolve uma exception
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            return Long.parseLong(claims.getSubject());
+
     }
 }
