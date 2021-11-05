@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -27,14 +28,14 @@ public class TransacaoController {
     private TransacaoService service;
 
     @GetMapping
-    public Page<TransacaoDto> listar(@PageableDefault(size = 10) Pageable paginacao, @AuthenticationPrincipal Usuario logado) {
+    public Page<TransacaoDto> listar(@PageableDefault(size = 10) Pageable paginacao, @ApiIgnore @AuthenticationPrincipal Usuario logado) {
 
         return service.listar(paginacao, logado);
 
     }
 
     @PostMapping
-    public ResponseEntity<TransacaoDto> cadastrar(@RequestBody @Valid TransacaoFormDto dto, UriComponentsBuilder uriBuilder, @AuthenticationPrincipal Usuario logado) {
+    public ResponseEntity<TransacaoDto> cadastrar(@RequestBody @Valid TransacaoFormDto dto, UriComponentsBuilder uriBuilder, @ApiIgnore @AuthenticationPrincipal Usuario logado) {
 
        TransacaoDto transacaoDto = service.cadastrar(dto, logado);
 
@@ -46,7 +47,7 @@ public class TransacaoController {
     }
 
     @PutMapping
-    public ResponseEntity<TransacaoDto> atualizar(@RequestBody @Valid AtualizacaoTransacaoFormDto dto, @AuthenticationPrincipal Usuario logado) {
+    public ResponseEntity<TransacaoDto> atualizar(@RequestBody @Valid AtualizacaoTransacaoFormDto dto, @ApiIgnore @AuthenticationPrincipal Usuario logado) {
 
         TransacaoDto atualizada = service.atualizar(dto, logado);
 
@@ -54,7 +55,7 @@ public class TransacaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TransacaoDto> remover(@PathVariable @NotNull Long id, @AuthenticationPrincipal Usuario logado) {
+    public ResponseEntity<TransacaoDto> remover(@PathVariable @NotNull Long id, @ApiIgnore @AuthenticationPrincipal Usuario logado) {
 
         service.remover(id, logado);
 
@@ -62,7 +63,7 @@ public class TransacaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransacaoDetalhadaDto> detalhar(@PathVariable @NotNull Long id, @AuthenticationPrincipal Usuario logado) {
+    public ResponseEntity<TransacaoDetalhadaDto> detalhar(@PathVariable @NotNull Long id,@ApiIgnore @AuthenticationPrincipal Usuario logado) {
 
         TransacaoDetalhadaDto dto = service.detalhar(id, logado);
 

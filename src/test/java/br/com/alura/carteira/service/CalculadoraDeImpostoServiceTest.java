@@ -11,9 +11,11 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// 15% de imposto para transações do tipo venda com valor superior a R$ 20.000,00
 class CalculadoraDeImpostoServiceTest {
 
     private CalculadoraDeImpostoService calculadora;
+
 
     @BeforeEach
     public void inicializar(){
@@ -30,7 +32,8 @@ class CalculadoraDeImpostoServiceTest {
                 new BigDecimal("30.00"),
                 10,
                 TipoTransacao.COMPRA,
-                new Usuario(1l, "Raul", "raul@gmail.com", "123456", null)
+                new Usuario(1l, "Raul", "raul@gmail.com", "123456", null),
+                BigDecimal.ZERO
         );
 
         BigDecimal imposto = calculadora.calcular(transacao);
@@ -47,7 +50,8 @@ class CalculadoraDeImpostoServiceTest {
                 new BigDecimal("30.00"),
                 10,
                 TipoTransacao.VENDA,
-                new Usuario(1l, "Raul", "raul@gmail.com", "123456", null)
+                new Usuario(1l, "Raul", "raul@gmail.com", "123456", null),
+                BigDecimal.ZERO
         );
 
         BigDecimal imposto = calculadora.calcular(transacao);
@@ -64,7 +68,8 @@ class CalculadoraDeImpostoServiceTest {
                 new BigDecimal("1000.00"),
                 30,
                 TipoTransacao.VENDA,
-                new Usuario(1l, "Raul", "raul@gmail.com", "123456", null)
+                new Usuario(1l, "Raul", "raul@gmail.com", "123456", null),
+                BigDecimal.ZERO
         );
 
         BigDecimal imposto = calculadora.calcular(transacao);

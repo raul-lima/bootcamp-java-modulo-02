@@ -11,6 +11,7 @@ import br.com.alura.carteira.repository.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.AccessDeniedException;
@@ -18,6 +19,9 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TransacaoService {
@@ -31,25 +35,37 @@ public class TransacaoService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private CalculadoraDeImpostoService calculadoraDeImpostoService;
+
 
     public Page<TransacaoDto> listar(@PageableDefault(size = 10) Pageable paginacao, Usuario usuario) {
 
 
         return transacaoRepository
                 .findAllByUsuario(paginacao, usuario)
-                .map(t -> modelMapper
-                        .map(t, TransacaoDto.class));
+                .map(t -> modelMapper.map(t, TransacaoDto.class));
 
+//        List<TransacaoDto> transacoesDto = new ArrayList<>();
+//
+//        transacoes.forEach(transacao -> {
+//        BigDecimal imposto = calculadoraDeImpostoService.calcular(transacao);
+//        TransacaoDto dto = modelMapper.map(transacao, TransacaoDto.class);
+//        dto.setImposto(imposto);
+//        transacoesDto.add(dto);
+//
+//        });
+//
+//        return new PageImpl<TransacaoDto>(
+//                transacoesDto, transacoes.getPageable(),
+//                transacoes.getTotalElements());
 
     }
 
     @Transactional
     public TransacaoDto cadastrar(TransacaoFormDto dto, Usuario logado) {
 
-
         Long idUsuario = dto.getUsuarioId();
-
-
 
         try {
             Usuario usuario = usuarioRepository.getById(idUsuario);
@@ -62,6 +78,7 @@ public class TransacaoService {
 
             transacao.setId(null);
             transacao.setUsuario(usuario);
+            transacao.setImposto(calculadoraDeImpostoService.calcular(transacao));
 
             transacaoRepository.save(transacao);
 
