@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(exclude = "senha")
+@EqualsAndHashCode(of = "id")
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

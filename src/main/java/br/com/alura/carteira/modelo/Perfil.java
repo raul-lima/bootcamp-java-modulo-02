@@ -10,6 +10,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode(of = "id")
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

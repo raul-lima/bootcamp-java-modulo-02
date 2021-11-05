@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode(of = "id")
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -45,5 +46,9 @@ public class Transacao {
         this.preco = preco;
         this.quantidade = quantidade;
         this.tipo = tipo;
+    }
+
+    public boolean pertenceAoUsuario(Usuario usuario) {
+        return this.usuario.equals(usuario);
     }
 }
