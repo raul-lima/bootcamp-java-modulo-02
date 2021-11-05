@@ -42,12 +42,12 @@ public class VerificacaoTokenFilter extends OncePerRequestFilter {
 
         //O token não vem puro, ele vem com a palavra Bearer, espaço, e depois vem o token
         // Tem que tirar a palavra bearer
-        token = token.replace("Bearer", "");
+        token = token.replace("Bearer ", "");
         boolean tokenValido = tokenService.isValido(token);
         if (tokenValido) {
             Long idUsuario = tokenService.extrairIdUsuario(token);
-            Usuario logado = usuarioRepository.getById(idUsuario);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(logado, null, null);
+            Usuario logado = usuarioRepository.carregarPorIdComPerfis(idUsuario).get();
+            Authentication authentication = new UsernamePasswordAuthenticationToken(logado, null, logado.getAuthorities());
             // Faz o authentication representar o usuário logado
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

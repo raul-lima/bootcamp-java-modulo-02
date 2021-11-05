@@ -2,7 +2,9 @@ package br.com.alura.carteira.service;
 
 import br.com.alura.carteira.dto.UsuarioDto;
 import br.com.alura.carteira.dto.UsuarioFormDto;
+import br.com.alura.carteira.modelo.Perfil;
 import br.com.alura.carteira.modelo.Usuario;
+import br.com.alura.carteira.repository.PerfilRepository;
 import br.com.alura.carteira.repository.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,14 @@ public class UsuarioService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private PerfilRepository perfilRepository;
+
     public Page<UsuarioDto> listar(Pageable paginacao) {
 
-        Page<Usuario> usuarios = usuarioRepository.findAll(paginacao);
-        return usuarios
+//        Page<Usuario> usuarios = usuarioRepository.findAll(paginacao);
+        return usuarioRepository
+                .findAll(paginacao)
                 .map(t -> modelMapper
                         .map(t, UsuarioDto.class));
     }
@@ -38,6 +44,10 @@ public class UsuarioService {
     @Transactional
     public UsuarioDto cadastrar(UsuarioFormDto dto) {
         Usuario usuario = modelMapper.map(dto, Usuario.class);
+
+        Perfil perfil = perfilRepository.getById(dto.getPerfilId());
+
+        usuario.adicionarPerfil(perfil);
 
         String senha = new Random().nextInt(999999) + "";
         usuario.setSenha(bCryptPasswordEncoder.encode(senha));

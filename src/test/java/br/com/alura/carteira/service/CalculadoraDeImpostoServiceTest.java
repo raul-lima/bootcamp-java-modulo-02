@@ -30,7 +30,7 @@ class CalculadoraDeImpostoServiceTest {
                 new BigDecimal("30.00"),
                 10,
                 TipoTransacao.COMPRA,
-                new Usuario(1l, "Raul", "raul@gmail.com", "123456")
+                new Usuario(1l, "Raul", "raul@gmail.com", "123456", null)
         );
 
         BigDecimal imposto = calculadora.calcular(transacao);
@@ -47,7 +47,7 @@ class CalculadoraDeImpostoServiceTest {
                 new BigDecimal("30.00"),
                 10,
                 TipoTransacao.VENDA,
-                new Usuario(1l, "Raul", "raul@gmail.com", "123456")
+                new Usuario(1l, "Raul", "raul@gmail.com", "123456", null)
         );
 
         BigDecimal imposto = calculadora.calcular(transacao);
@@ -64,7 +64,7 @@ class CalculadoraDeImpostoServiceTest {
                 new BigDecimal("1000.00"),
                 30,
                 TipoTransacao.VENDA,
-                new Usuario(1l, "Raul", "raul@gmail.com", "123456")
+                new Usuario(1l, "Raul", "raul@gmail.com", "123456", null)
         );
 
         BigDecimal imposto = calculadora.calcular(transacao);
